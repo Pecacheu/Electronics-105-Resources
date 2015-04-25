@@ -1,4 +1,4 @@
-# Electronics-102-Resources
+# Electronics 102 Class Resources
 Slides, links, and code for our E102 class!
 
 ### Links:
