@@ -41,7 +41,7 @@ void loop() {
   byte potValue = mapValuesRound(potRaw, 0, 1010, 0, 255);
   
   //Check If New Value is Different:
-  if(abs(potValue - oldPotValue) >= 2) {
+  if(abs(potValue - oldPotValue) >= 6) {
     //Display New Pot Value on Light Ring:
     int pixelsToLight = mapValuesRound(potValue, 255, 0, 0, strip.numPixels());
     for(int i=0; i<strip.numPixels(); i++) {
