@@ -1,0 +1,39 @@
+Here's how to add button control to the E102_Example_3 sketch:
+
+First, make a circuit that looks like this:
+
+┏━━━━━━━━━━┓
+┃ Ardu Nano ┃
+┗━━━━━━━━━━┛
+  ┃5V  ┃D3 ┃GND
+  ┃    ┃   ┃
+┏━━━┓  ┃   ┃
+┃ ◯ ┃  ┃   ┃
+┗━━━┛  ┃   ┃
+  ┗━━━━┻━▭━┛
+ Resistor ^
+
+Then, add the folowing code to example 3:
+
+Add this to SETUP function:
+  pinMode(11, INPUT);
+
+Add this to LOOP function:
+  if(digitalRead(11)) {
+    if(BRIGHTNESS > 63) BRIGHTNESS -= 64;
+    else if(BRIGHTNESS >= 1) BRIGHTNESS = 0;
+    else BRIGHTNESS = 255;
+    DIV = double(-BRIGHTNESS+256)/8.0;
+    if(DIV < 1) DIV = 1;
+    waitForButtonRelease(11, 100);
+  }
+
+Add this function somewhere after LOOP function:
+//Wait for a button to be released for an amount of time:
+void waitForButtonRelease(byte pinNum, unsigned int time) {
+  unsigned int bCount = 0;
+  while(bCount < time) {
+    delay(1); bCount++;
+    if(digitalRead(pinNum) == HIGH) bCount = 0;
+  }
+}
