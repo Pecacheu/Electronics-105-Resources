@@ -1,7 +1,9 @@
 # Electronics 102 Class Resources
 Slides, links, and code for our E102 class!
 
-### Links:
+## Links:
+###### Download, but don't install anything before the class!
+
 1. Arduino Software at: www.arduino.cc/main/software
 2. DDCduino USB-to-Serial chip driver: www.wch.cn/download/CH341SER_EXE.html
 3. Mac OS X version: www.wch.cn/download/CH341SER_MAC_ZIP.html
