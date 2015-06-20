@@ -1,5 +1,5 @@
-# Electronics 102 Class Resources
-Slides, links, and code for our E102 class!
+# Electronics 105 Class Resources
+Slides, links, and code for our E105 class!
 
 ## Links:
 ###### Download, but don't install anything before the class!
