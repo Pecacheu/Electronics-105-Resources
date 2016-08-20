@@ -3,37 +3,31 @@ Here's how to add button control to the E102_Example_3 sketch:
 First, make a circuit that looks like this:
 
 ┏━━━━━━━━━━┓
-┃ Ardu Nano ┃
+┃    Ardu Nano     ┃
 ┗━━━━━━━━━━┛
-  ┃5V  ┃D3 ┃GND
-  ┃    ┃   ┃
-┏━━━┓  ┃   ┃
-┃ ◯ ┃  ┃   ┃
-┗━━━┛  ┃   ┃
-  ┗━━━━┻━▭━┛
+   ┃5V  ┃D10┃GND
+   ┃    ┃   ┃
+  ┏━┓ ┃   ┃
+  ┃◯┃ ┃   ┃
+  ┗━┛ ┃   ┃
+   ┗━━┻▭━┛
  Resistor ^
 
-Then, add the folowing code to example 3:
+Then, add the folowing code to EX3:
+
+Add this near the top:
+#define BTNPIN 10
+byte bLevel = 200;
 
 Add this to SETUP function:
-  pinMode(11, INPUT);
+  pinMode(BTNPIN, INPUT);
 
 Add this to LOOP function:
-  if(digitalRead(11)) {
-    if(BRIGHTNESS > 63) BRIGHTNESS -= 64;
-    else if(BRIGHTNESS >= 1) BRIGHTNESS = 0;
-    else BRIGHTNESS = 255;
-    DIV = double(-BRIGHTNESS+256)/8.0;
-    if(DIV < 1) DIV = 1;
-    waitForButtonRelease(11, 100);
+  if(digitalRead(BTNPIN)) {
+    if(bLevel > 200) bLevel = 200;
+    else if(bLevel > 128) bLevel = 128;
+    else if(bLevel > 0) bLevel = 0;
+    else bLevel = 255;
+    setBrightness(bLevel);
+    waitForButtonRelease(BTNPIN, 100);
   }
-
-Add this function somewhere after LOOP function:
-//Wait for a button to be released for an amount of time:
-void waitForButtonRelease(byte pinNum, unsigned int time) {
-  unsigned int bCount = 0;
-  while(bCount < time) {
-    delay(1); bCount++;
-    if(digitalRead(pinNum) == HIGH) bCount = 0;
-  }
-}

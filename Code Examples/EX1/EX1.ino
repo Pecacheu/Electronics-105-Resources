@@ -1,9 +1,8 @@
 #include <Adafruit_NeoPixel.h>
-#include <avr/power.h>
 
-#define PIN 2 //Arduino pin number LED ring is connected to.
+#define LEDPIN 2 //Arduino pin number LED ring is connected to.
 #define LENGTH 16 //Number of pixels in LED ring (one ring has 16 pixels).
-byte BRIGHTNESS = 200; //Brightness (from 0 to 255) of lights.
+#define BRIGHTNESS 200 //Brightness (from 0 to 255) of lights.
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -12,31 +11,35 @@ byte BRIGHTNESS = 200; //Brightness (from 0 to 255) of lights.
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(LENGTH, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(LENGTH, LEDPIN, NEO_GRB + NEO_KHZ800);
 
-double DIV = double(-BRIGHTNESS+256)/8.0;
+//#define DIV (-BRIGHTNESS+256)/8.0 //You can perform math with constants. The calculation is
+//performed before the compiled program is uploaded, so the resulting value will be hard-coded.
+
+double DIV = (-BRIGHTNESS+256)/8.0; //But we'll use a variable instead, so the brightness can be adjusted.
+
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
 void setup() {
-  if(DIV < 1) DIV = 1;
   strip.begin(); //Setup LED Strip
+  Serial.begin(9600);
 }
 
 void loop() {
-  // Some example procedures showing how to display to the pixels:
-  colorWipe(strip.Color(255/DIV, 32/DIV, 16/DIV), 80); // Red
-  colorWipe(strip.Color(64/DIV, 255/DIV, 16/DIV), 80); // Green
-  colorWipe(strip.Color(16/DIV, 64/DIV, 255/DIV), 80); // Blue
+  //Some example procedures showing how to display to the pixels:
+  colorWipe(strip.Color(255/DIV, 32/DIV, 16/DIV), 80); //Red
+  colorWipe(strip.Color(64/DIV, 255/DIV, 16/DIV), 80); //Green
+  colorWipe(strip.Color(16/DIV, 64/DIV, 255/DIV), 80); //Blue
   
   rainbow(20);
   rainbowCycle(15);
   theaterChaseRainbow(100);
 }
 
-// Fill the dots one after the other with a color
+//Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
   for(uint16_t i=0; i<strip.numPixels(); i++) {
       strip.setPixelColor(i, c);
@@ -57,7 +60,7 @@ void rainbow(uint8_t wait) {
   }
 }
 
-// Slightly different, this makes the rainbow equally distributed throughout
+//Slightly different, this makes the rainbow equally distributed throughout
 void rainbowCycle(uint8_t wait) {
   uint16_t i, j;
   
@@ -106,8 +109,8 @@ void theaterChaseRainbow(uint8_t wait) {
   }
 }
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
+//Input a value 0 to 255 to get a color value.
+//The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
